@@ -8,36 +8,54 @@ class TimerConfig extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
   handleChange(ev){
-    const newBaseTime = this.props.baseTime;
-    if (ev.target.id === 'hours') newBaseTime.subtract(newBaseTime.get('hours'), 'hours').add(parseInt(ev.target.value, 10), 'hours');
-    if (ev.target.id === 'minutes') newBaseTime.subtract(newBaseTime.get('minutes'), 'minutes').add(parseInt(ev.target.value, 10), 'minutes');
-    if (ev.target.id === 'seconds') newBaseTime.subtract(newBaseTime.get('seconds'), 'seconds').add(parseInt(ev.target.value, 10), 'seconds');
-
-    this.props.setBaseTime(newBaseTime);
+    const newStudyTime = this.props.studyTime;
+    if (ev.target.id === 'study-minutes') newStudyTime.subtract(newStudyTime.get('minutes'), 'minutes').add(parseInt(ev.target.value, 10), 'minutes');
+    if (ev.target.id === 'study-seconds') newStudyTime.subtract(newStudyTime.get('seconds'), 'seconds').add(parseInt(ev.target.value, 10), 'seconds');
+    this.props.setStudyTime(newStudyTime);
   }
 
   render() {
     return (
       <div className='row'>
-        <h2 className='text-primary'>Set Timer</h2>
-        
+
+        <h3 className='text-primary'>Set Timer</h3>
+
         <div className='row control-row'>
           <div className='form-group'>
             <div className='col-sm-3'>
-              <label htmlFor='hours'>Hours</label>
+              <label htmlFor='minutes'>Minutes</label>
             </div>
             <div className='col-sm-9'>
               <input 
-              id='hours'
-              className='form-control' 
-              type='number' 
-              defaultValue={this.props.baseTime.get('hours')}
-              onChange={this.handleChange}
+                id='study-minutes'
+                className='form-control' 
+                type='number' 
+                defaultValue={this.props.studyTime.get('minutes')}
+                onChange={this.handleChange}
               />
             </div>
           </div>
         </div>
 
+        <div className='row control-row'>
+          <div className='form-group'>
+            <div className='col-sm-3'>
+              <label htmlFor='seconds'>Seconds</label>
+            </div>
+            <div className='col-sm-9'>
+              <input 
+                id='study-seconds' 
+                className='form-control' 
+                type='number' 
+                defaultValue={this.props.studyTime.get('seconds')}
+                onChange={this.handleChange}
+              />
+            </div>
+          </div>
+        </div>
+
+        <h3 className='text-primary'>Set Break</h3>
+        
         <div className='row control-row'>
           <div className='form-group'>
             <div className='col-sm-3'>
@@ -48,7 +66,7 @@ class TimerConfig extends Component {
                 id='minutes'
                 className='form-control' 
                 type='number' 
-                defaultValue={this.props.baseTime.get('minutes')}
+                defaultValue={this.props.studyTime.get('minutes')}
                 onChange={this.handleChange}
               />
             </div>
@@ -65,7 +83,7 @@ class TimerConfig extends Component {
                 id='seconds' 
                 className='form-control' 
                 type='number' 
-                defaultValue={this.props.baseTime.get('seconds')}
+                defaultValue={this.props.studyTime.get('seconds')}
                 onChange={this.handleChange}
               />
             </div>

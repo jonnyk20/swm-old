@@ -12,20 +12,20 @@ class Timer extends Component {
 
     this.state = {
       currentTime: moment.duration(25, 'minutes'),
-      baseTime: moment.duration(25, 'minutes'),
+      studyTime: moment.duration(25, 'minutes'),
       timerState: timerStates.NOT_SET,
       timer: null,
     };
-    this.setBaseTime = this.setBaseTime.bind(this);
+    this.setStudyTime = this.setStudyTime.bind(this);
     this.startTimer = this.startTimer.bind(this);
     this.reduceTimer = this.reduceTimer.bind(this);
     this.stopTimer = this.stopTimer.bind(this);
   }
 
-  setBaseTime(newBaseTime){
+  setStudyTime(newStudyTime){
     this.setState({
-      baseTime: newBaseTime,
-      currentTime: newBaseTime,
+      studyTime: newStudyTime,
+      currentTime: newStudyTime,
     });
   }
 
@@ -60,7 +60,7 @@ class Timer extends Component {
     this.setState({
       timerState: timerStates.NOT_SET,
       timer: null,
-      currentTime: moment.duration(this.state.baseTime)
+      currentTime: moment.duration(this.state.studyTime)
     });
   }
 
@@ -93,8 +93,8 @@ class Timer extends Component {
           (this.state.timerState !== timerStates.RUNNING)
           &&
           (<TimerConfig 
-              baseTime={this.state.baseTime}
-              setBaseTime={this.setBaseTime}
+              studyTime={this.state.studyTime}
+              setStudyTime={this.setStudyTime}
             />)
         }
       </div>
