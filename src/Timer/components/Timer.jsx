@@ -11,7 +11,7 @@ class Timer extends Component {
     super();
 
     this.state = {
-      currentTime: moment.duration(45, 'minutes'),
+      currentTime: moment.duration(2, 'minutes'),
       studyTime: moment.duration(2, 'minutes'), // change to 45
       breakTime: moment.duration(1, 'minutes'), // change to 0
       timerState: timerStates.NOT_SET,
