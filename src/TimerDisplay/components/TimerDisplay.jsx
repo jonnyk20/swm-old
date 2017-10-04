@@ -11,8 +11,12 @@ const TimerDisplay = (props) => (
   <div>
     <div className='row center-block'>
       {
-        (props.timerState === timerStates.COMPLETE) 
-        && <h2 className='text-success'> Well Done! </h2>
+        (props.timerState === timerStates.BREAK) 
+        && <h2 className='text-success'> Time for a Break! </h2>
+      }
+      {
+        (props.timerState === timerStates.RUNNING) 
+        && <h2 className='text-primary'> Time to Study! </h2>
       }
       </div>
 

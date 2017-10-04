@@ -1,10 +1,8 @@
 import React, {Component} from 'react';
 
-
 class TimerConfig extends Component {
   constructor(){
     super();
-
     this.handleChange = this.handleChange.bind(this);
   }
   handleChange(ev){
@@ -12,6 +10,12 @@ class TimerConfig extends Component {
     if (ev.target.id === 'study-minutes') newStudyTime.subtract(newStudyTime.get('minutes'), 'minutes').add(parseInt(ev.target.value, 10), 'minutes');
     if (ev.target.id === 'study-seconds') newStudyTime.subtract(newStudyTime.get('seconds'), 'seconds').add(parseInt(ev.target.value, 10), 'seconds');
     this.props.setStudyTime(newStudyTime);
+
+    const newBreakTime = this.props.breakTime;
+    if (ev.target.id === 'break-minutes') newBreakTime.subtract(newBreakTime.get('minutes'), 'minutes').add(parseInt(ev.target.value, 10), 'minutes');
+    if (ev.target.id === 'break-seconds') newBreakTime.subtract(newBreakTime.get('seconds'), 'seconds').add(parseInt(ev.target.value, 10), 'seconds');
+    this.props.setBreakTime(newBreakTime);
+
   }
 
   render() {
@@ -63,10 +67,10 @@ class TimerConfig extends Component {
             </div>
             <div className='col-sm-9'>
               <input 
-                id='minutes'
+                id='break-minutes'
                 className='form-control' 
                 type='number' 
-                defaultValue={this.props.studyTime.get('minutes')}
+                defaultValue={this.props.breakTime.get('minutes')}
                 onChange={this.handleChange}
               />
             </div>
@@ -80,10 +84,10 @@ class TimerConfig extends Component {
             </div>
             <div className='col-sm-9'>
               <input 
-                id='seconds' 
+                id='break-seconds' 
                 className='form-control' 
                 type='number' 
-                defaultValue={this.props.studyTime.get('seconds')}
+                defaultValue={this.props.breakTime.get('seconds')}
                 onChange={this.handleChange}
               />
             </div>

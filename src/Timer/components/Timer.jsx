@@ -11,12 +11,14 @@ class Timer extends Component {
     super();
 
     this.state = {
-      currentTime: moment.duration(25, 'minutes'),
-      studyTime: moment.duration(25, 'minutes'),
+      currentTime: moment.duration(45, 'minutes'),
+      studyTime: moment.duration(2, 'minutes'), // change to 45
+      breakTime: moment.duration(1, 'minutes'), // change to 0
       timerState: timerStates.NOT_SET,
       timer: null,
     };
     this.setStudyTime = this.setStudyTime.bind(this);
+    this.setBreakTime = this.setBreakTime.bind(this);
     this.startTimer = this.startTimer.bind(this);
     this.reduceTimer = this.reduceTimer.bind(this);
     this.stopTimer = this.stopTimer.bind(this);
@@ -26,6 +28,12 @@ class Timer extends Component {
     this.setState({
       studyTime: newStudyTime,
       currentTime: newStudyTime,
+    });
+  }
+
+  setBreakTime(newBreakTime){
+    this.setState({
+      breakTime: newBreakTime
     });
   }
 
@@ -65,14 +73,17 @@ class Timer extends Component {
   }
 
   completeTimer() {
-    if (this.state.timer) {
-      clearInterval(this.state.timer)
+    if (this.state.timerState === timerStates.RUNNING) {
+      this.setState({
+      timerState: timerStates.BREAK,
+      currentTime: moment.duration(this.state.breakTime)
+      })
+    } else {
+      this.setState({
+      timerState: timerStates.RUNNING,
+      currentTime: moment.duration(this.state.studyTime)
+      });
     }
-
-    this.setState({
-      timerState: timerStates.COMPLETE,
-      timer: null,
-    });
   }
 
   render()
@@ -95,6 +106,8 @@ class Timer extends Component {
           (<TimerConfig 
               studyTime={this.state.studyTime}
               setStudyTime={this.setStudyTime}
+              breakTime={this.state.breakTime}
+              setBreakTime={this.setBreakTime}
             />)
         }
       </div>

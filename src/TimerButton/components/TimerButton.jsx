@@ -4,7 +4,6 @@ import * as timerStates from '../../timerStates';
 class TimerButton extends Component {
   constructor() {
     super();
-
     this.getButton = this.getButton.bind(this);
   }
 
