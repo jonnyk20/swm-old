@@ -22,6 +22,7 @@ class Timer extends Component {
     this.startTimer = this.startTimer.bind(this);
     this.reduceTimer = this.reduceTimer.bind(this);
     this.stopTimer = this.stopTimer.bind(this);
+    this.pauseTimer = this.pauseTimer.bind(this);
   }
 
   setStudyTime(newStudyTime){
@@ -43,6 +44,27 @@ class Timer extends Component {
       timer: setInterval(this.reduceTimer, 1000)
     });
   }
+  
+  stopTimer() {
+    if (this.state.timer){
+      clearInterval(this.state.timer);
+    }
+
+    this.setState({
+      timerState: timerStates.NOT_SET,
+      timer: null,
+      currentTime: moment.duration(this.state.studyTime)
+    });
+  }
+
+  pauseTimer() {
+    this.setState({
+      timerState: timerStates.PAUSED
+    });
+    if (this.state.timer){
+      clearInterval(this.state.timer);
+    }
+  }
 
   reduceTimer(){
     if (this.state.currentTime.get('hours') === 0 &&
@@ -57,18 +79,6 @@ class Timer extends Component {
 
     this.setState({
       currentTime: newTime,
-    });
-  }
-
-  stopTimer() {
-    if (this.state.timer){
-      clearInterval(this.state.timer);
-    }
-
-    this.setState({
-      timerState: timerStates.NOT_SET,
-      timer: null,
-      currentTime: moment.duration(this.state.studyTime)
     });
   }
 
@@ -98,6 +108,7 @@ class Timer extends Component {
         <TimerButton 
           startTimer={this.startTimer}
           stopTimer={this.stopTimer}
+          pauseTimer={this.pauseTimer}
           timerState={this.state.timerState}
         />
         {

@@ -15,17 +15,32 @@ class TimerButton extends Component {
               >Start</button>);
 
     if (this.props.timerState === timerStates.RUNNING)  
-    return (<button 
-                className='btn btn-danger center-block'
-                onClick={this.props.stopTimer}
-              >Interrupt</button>);
+    return (
+            <div>
+              <button 
+                  className='btn btn-danger center-block'
+                  onClick={this.props.stopTimer}
+                >Interrupt</button>
+              <button 
+                className='btn btn-default center-block'
+                onClick={this.props.pauseTimer}
+              >Pause</button>
+            </div>
+              );
+
+
 
     if (this.props.timerState === timerStates.COMPLETE)  
     return (<button 
                 className='btn btn-info center-block'
                 onClick={this.props.stopTimer}
-              >Reset</button>);    
+              >Reset</button>);
 
+    if (this.props.timerState === timerStates.PAUSED)  
+    return (<button 
+                className='btn btn-success center-block'
+                onClick={this.props.startTimer}
+              >Resume</button>);        
   }
 
   render () {
