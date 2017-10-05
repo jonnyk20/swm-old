@@ -1,20 +1,21 @@
 const leftPad = require('left-pad');
 const moment = require('moment');
-
-const duration = moment.duration(15, 'seconds');
-
 const pad = (num) => leftPad(num, 2, '0');
+
+const duration = moment.duration(5, 'seconds');
 
 const count = setInterval(function(){
   const currentHours = duration.get('hours');
   const currentMinutes = duration.get('minutes');
   const currentSeconds = duration.get('seconds');
-
-  
-  console.log(pad(current))
+  if (currentHours === 0 &&
+      currentMinutes === 0 &&
+      currentSeconds === 0 )
+    {
+      return clear();
+    }
+  console.log(pad(currentSeconds))
   duration.subtract(1, 'second');
 }, 1000)
 
-const clear = setTimeout(function(){
-	clearTimeout(count);
-}, 3000);
+const clear = () => clearTimeout(count);
