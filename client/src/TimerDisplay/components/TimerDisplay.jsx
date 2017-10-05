@@ -1,11 +1,11 @@
 import React from 'react';
 import * as timerStates from '../../timerStates';
 
-const leftPad = (val) => {
-  if (val < 10) return `0${val}`;
+// const leftPad = (val) => {
+//   if (val < 10) return `0${val}`;
 
-  return `${val}`;
-};
+//   return `${val}`;
+// };
 
 const TimerDisplay = (props) => (
   <div>
@@ -22,7 +22,8 @@ const TimerDisplay = (props) => (
 
       <div className='row'>
         <h2 className='text-center'>
-          {`${leftPad(props.currentTime.get('hours'))}:${leftPad(props.currentTime.get('minutes'))}:${leftPad(props.currentTime.get('seconds'))}`}
+          {/* {`${leftPad(props.currentTime.get('hours'))}:${leftPad(props.currentTime.get('minutes'))}:${leftPad(props.currentTime.get('seconds'))}`} */}
+          {props.timestamp}
         </h2>
     </div>
 </div>

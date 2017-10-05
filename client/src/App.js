@@ -18,7 +18,7 @@ class App extends Component {
       <div className='panel panel-default app-content center-block'>
         <div className='panel-body'>
           <div>{ this.state.timestamp }</div>
-          <Timer />
+          <Timer timestamp={ this.state.timestamp }/>
         </div>
       </div>
     );

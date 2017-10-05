@@ -7,15 +7,21 @@ io.on('connection', (client) => {
  
   const timerUpdate = function (str) {
     client.emit('timer', str);
-    console.log('New string emitted', str);
   }
+
+  client.on('modifyTimer', function(command, payload) {
+    console.log('command from client:', command);
+    timer.eventEmitter.emit('modifyTimer', command, payload);
+  });
 
   client.on('disconnect', function() {
       console.log('client disconneted!');
-   });
+  });
 
   timer.eventEmitter.on('timeChange', timerUpdate);
 });
+
+
 
 const port = 8000;
 io.listen(port);

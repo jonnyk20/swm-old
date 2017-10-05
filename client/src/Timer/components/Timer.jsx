@@ -104,6 +104,7 @@ class Timer extends Component {
         <TimerDisplay 
           currentTime={this.state.currentTime}
           timerState={this.state.timerState}
+          timestamp={ this.props.timestamp }
         />
         <TimerButton 
           startTimer={this.startTimer}

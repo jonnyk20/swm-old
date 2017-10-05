@@ -16,7 +16,7 @@ let currentTime;
 
 let breakTime = moment.duration(5, 'seconds');
 
-function setStudyTime(hours = 0, minutes = 0, seconds = 0){
+function setTime(hours = 0, minutes = 0, seconds = 0){
   const newStudyTime = moment.duration({
     hours: hours,
     minutes: minutes,
@@ -37,7 +37,6 @@ function startStudy() {
   outputString('alert', "Starting Study");
   timerState = timerStates.RUNNING;
 }
-
 
 function reduceTimer() {
   const currentHours = currentTime.get('hours');
@@ -82,8 +81,35 @@ function outputString(type, str){
   eventEmitter.emit('timeChange', str);
 }
 
-setStudyTime(0, 0, 10);
+setTime(0, 0, 10);
 startTimer();
+
+function onTimerModified(command, payload){
+  console.log('timer modify command received by timer!');
+
+  switch (command){
+    case 'stop':
+      stopTimer();
+      break;
+    case 'pause':
+      pauseTimer();
+      break;
+    case 'start':
+      startTimer();
+      break;
+    case 'setTime':
+      setTime(payload);
+      break;
+    default:
+      console.log('command not recognized');
+  }
+
+
+
+  return pauseTimer();
+}
+
+eventEmitter.on('modifyTimer', onTimerModified);
 
 module.exports = {
   eventEmitter: eventEmitter

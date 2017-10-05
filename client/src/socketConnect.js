@@ -3,8 +3,17 @@ const socket = openSocket('http://localhost:8000');
 
 function subscribeToTimer(interval, cb) {
   socket.on('timer', timestamp => cb(null, timestamp));
-//  socket.on('timer', timestamp => console.log(timestamp))
-  socket.emit('subscribeToTimer', 1000);
 } 
 
-export { subscribeToTimer };
+function modifyTimer(command, payload){
+  //socket.emit(command, JSON.stringify(payload))
+  socket.emit('modifyTimer', command)
+  console.log('modify event emitted')
+}
+
+setTimeout( () => modifyTimer('pause'), 5000);
+
+export { 
+  subscribeToTimer,
+  modifyTimer
+};
