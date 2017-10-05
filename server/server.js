@@ -1,6 +1,10 @@
 const io = require('socket.io')();
 const timer = require('./timer.js');
 
+// const t = setInterval(() => {
+//   io.broadcast('timer');
+// }, 1000);
+
 io.on('connection', (client) => {
   console.log("client connected");
   client.emit('timer', 'welcome!');
@@ -8,6 +12,8 @@ io.on('connection', (client) => {
   const timerUpdate = function (str) {
     client.emit('timenr', str);
   }
+
+  // client.on('timerStop', () => clearInterval(t));
 
   client.on('modifyTimer', function(command, newStudyTime, newBreakTime) {
     console.log('command from client:', command);

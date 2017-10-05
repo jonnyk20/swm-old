@@ -11,14 +11,14 @@ class AdminPanel extends Component {
           <div className='panel panel-default'>
             <div className='admin row'>
              
-              <div className='col-sm-4'>
-                <button className='btn btn-primary' data-command='start' onClick={this.onHandleClick}>Start</button>
+              <div className='col-sm-3'>
+                <button className='btn btn-success' data-command='start' onClick={this.onHandleClick}>Start</button>
                 <button className='btn btn-danger' data-command='stop' onClick={this.onHandleClick}>Stop</button>
-                <button className='btn btn-default' data-command='pause' onClick={this.onHandleClick}>Pause</button>
+                <button className='btn btn-primary' data-command='pause' onClick={this.onHandleClick}>Pause</button>
                 <button className='btn btn-info' data-command='resume' onClick={this.onHandleClick}>Resume</button>
                 <div >{ this.props.timestamp }</div>
               </div>
-              <div className='col-md-4'>
+              <div className='col-md-5'>
                 <TimerConfig />
               </div>
             </div>

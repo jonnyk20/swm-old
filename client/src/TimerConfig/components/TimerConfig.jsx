@@ -15,44 +15,82 @@ class TimerConfig extends Component {
         <div className='row'>
           <div className='col-md-5'>
             <div className='row'>
-              Study Time
+             <h4>Study Time</h4>
             </div>
             <div className='row'>
+
               <div className='col-sm-3'>
-                x1
+                <div className='row'>
+                  Min
+                </div>
+                <div className='row'>
+                  <input 
+                      id='study-minutes'
+                      className='form-control' 
+                      type='number' 
+                      defaultValue={0}
+                      onChange={this.handleChange}
+                    />
+                </div>
               </div>
+
               <div className='col-sm-3'>
-                x2
+                <div className='row'>
+                  Sec
+                </div>
+                <div className='row'>
+                  <input 
+                    id='study-seconds'
+                    className='form-control' 
+                    type='number' 
+                    defaultValue={0}
+                    onChange={this.handleChange}
+                  />
+                </div>
               </div>
-              <div className='col-sm-3'>
-                x3
-              </div>
-              <div className='col-sm-3'>
-                x4
-              </div>
+
             </div>
           </div>
           <div className='col-md-5'>
             <div className='row'>
-              Break Time
+              <h4>Break Time</h4>
             </div>
             <div className='row'>
+
               <div className='col-sm-3'>
-                  y1
+                <div className='row'>
+                  Min
                 </div>
-                <div className='col-sm-3'>
-                  y2
+                <div className='row'>
+                  <input 
+                    id='break-seconds'
+                    className='form-control' 
+                    type='number' 
+                    defaultValue={0}
+                    onChange={this.handleChange}
+                  />
                 </div>
-                <div className='col-sm-3'>
-                  y3
+              </div>
+
+              <div className='col-sm-3'>
+                <div className='row'>
+                  Sec
                 </div>
-                <div className='col-sm-3'>
-                  y4
+                <div className='row'>
+                  <input 
+                    id='break-seconds'
+                    className='form-control' 
+                    type='number' 
+                    defaultValue={0}
+                    onChange={this.handleChange}
+                  />
                 </div>
+              </div>
+
             </div>
           </div>
-          <div className='col-md-2'>
-              [button]
+          <div className='col-md-1'>
+            <button className='btn btn-primary' data-command='start' onClick={() => console.log('hey')}>Start</button>
           </div>
         </div>
       </div>
