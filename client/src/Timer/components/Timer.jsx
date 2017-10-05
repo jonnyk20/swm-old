@@ -4,6 +4,7 @@ import TimerHeader from '../../TimerHeader/components/TimerHeader';
 import TimerDisplay from '../../TimerDisplay/components/TimerDisplay';
 import TimerButton from '../../TimerButton/components/TimerButton';
 import TimerConfig from '../../TimerConfig/components/TimerConfig';
+
 import * as timerStates from '../../timerStates';
 
 class Timer extends Component {
@@ -100,6 +101,7 @@ class Timer extends Component {
   {
     return (
       <div className='container-fluid'>
+        
         <TimerHeader />
         <TimerDisplay 
           currentTime={this.state.currentTime}

@@ -16,16 +16,21 @@ let currentTime;
 
 let breakTime = moment.duration(5, 'seconds');
 
-function setTime(hours = 0, minutes = 0, seconds = 0){
+function setTime(studyTimeArray, breakTimeArray){
   const newStudyTime = moment.duration({
-    hours: hours,
-    minutes: minutes,
-    seconds: seconds
+    hours: studyTimeArray[0],
+    minutes: studyTimeArray[1],
+    seconds: studyTimeArray[2]
   })
+  const newBreakTime = moment.duration({
+    hours: breakTimeArray[0],
+    minutes: breakTimeArray[1],
+    seconds: breakTimeArray[2]
+  });
+
+  breakTime = newBreakTime;
   studyTime = newStudyTime;
 }
-
-
 
 function startTimer(first) {
   countDown = setInterval(reduceTimer, 1000);
@@ -88,10 +93,10 @@ function outputString(type, str){
   eventEmitter.emit('timeChange', str);
 }
 
-setTime(0, 0, 10);
+//setTime([0, 0, 7], [0, 0, 3]);
 
 
-function onTimerModified(command, payload){
+function onTimerModified(command, studyTime, breakTime){
   console.log('timer modify command received by timer!');
 
   switch (command){
@@ -108,7 +113,8 @@ function onTimerModified(command, payload){
       resumeTimer();
       break;
     case 'setTime':
-      setTime(payload);
+     // console.log(studyTime, breakTime)
+      setTime(studyTime, breakTime);
       break;
     default:
       console.log('command not recognized');
@@ -117,20 +123,30 @@ function onTimerModified(command, payload){
 
 eventEmitter.on('modifyTimer', onTimerModified);
 
-eventEmitter.emit('modifyTimer', 'start');
+eventEmitter.emit('modifyTimer', 'setTime', 
+    [0, 0, 7], 
+    [0, 0, 3]
+  );
 
 setTimeout(() => {
-  eventEmitter.emit('modifyTimer', 'pause');
-}, 3000);
-
-setTimeout(() => {
-  eventEmitter.emit('modifyTimer', 'resume');
+  eventEmitter.emit('modifyTimer', 'start');
 }, 5000);
 
 setTimeout(() => {
-  eventEmitter.emit('modifyTimer', 'stop');
+  eventEmitter.emit('modifyTimer', 'start');
 }, 10000);
 
+setTimeout(() => {
+  eventEmitter.emit('modifyTimer', 'pause');
+}, 15000);
+
+setTimeout(() => {
+  eventEmitter.emit('modifyTimer', 'resume');
+}, 20000);
+
+setTimeout(() => {
+  eventEmitter.emit('modifyTimer', 'stop');
+}, 25000);
 
 module.exports = {
   eventEmitter: eventEmitter

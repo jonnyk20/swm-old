@@ -1,9 +1,16 @@
 import openSocket from 'socket.io-client';
-const socket = openSocket('http://localhost:8000');
+const socket = openSocket('http://localhost:8000', {'reconnection': false});
 
 function subscribeToTimer(interval, cb) {
   socket.on('timer', timestamp => cb(null, timestamp));
 } 
+
+socket.on('connect_error', function() {
+    console.log('Connection failed');
+});
+socket.on('reconnect_failed', function() {
+    console.log('Reconnection failed');
+});
 
 function modifyTimer(command, payload){
   socket.emit('modifyTimer', command, JSON.stringify(payload) || null);
