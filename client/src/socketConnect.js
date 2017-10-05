@@ -6,12 +6,12 @@ function subscribeToTimer(interval, cb) {
 } 
 
 function modifyTimer(command, payload){
-  //socket.emit(command, JSON.stringify(payload))
-  socket.emit('modifyTimer', command)
-  console.log('modify event emitted')
+  socket.emit('modifyTimer', command, JSON.stringify(payload) || null);
+  console.log('modify event emitted');
 }
 
 setTimeout( () => modifyTimer('pause'), 5000);
+setTimeout( () => modifyTimer('start'), 10000);
 
 export { 
   subscribeToTimer,

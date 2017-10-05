@@ -15,7 +15,7 @@ io.on('connection', (client) => {
   });
 
   client.on('disconnect', function() {
-      console.log('client disconneted!');
+    console.log('client disconneted!');
   });
 
   timer.eventEmitter.on('timeChange', timerUpdate);

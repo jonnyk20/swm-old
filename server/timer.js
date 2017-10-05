@@ -25,30 +25,43 @@ function setTime(hours = 0, minutes = 0, seconds = 0){
   studyTime = newStudyTime;
 }
 
-function startTimer() {
+
+
+function startTimer(first) {
   countDown = setInterval(reduceTimer, 1000);
   return startStudy();
 }
 
+function resumeTimer(first) {
+  countDown = setInterval(reduceTimer, 1000);
+  return;
+}
+
 function startStudy() {
-  if (timerState !== timerStates.PAUSED ){
-    currentTime = moment.duration(studyTime.asMilliseconds());
-  }
+  currentTime = moment.duration(studyTime.asMilliseconds());
   outputString('alert', "Starting Study");
-  timerState = timerStates.RUNNING;
+  timerState = timerStates.STUDY;
+  return;
+}
+
+function startBreak() {
+  currentTime = moment.duration(breakTime.asMilliseconds());
+  outputString('alert', "Starting Break");
+  timerState = timerStates.BREAK;
+  return;
 }
 
 function reduceTimer() {
-  const currentHours = currentTime.get('hours');
-  const currentMinutes = currentTime.get('minutes');
-  const currentSeconds = currentTime.get('seconds');
+  const currentHours = currentTime.hours();
+  const currentMinutes = currentTime.minutes();
+  const currentSeconds = currentTime.seconds();
   const timeString = `${pad(currentHours)}:${pad(currentMinutes)}:${pad(currentSeconds)}`
   outputString('time', timeString);
   if (currentHours === 0 &&
       currentMinutes === 0 &&
       currentSeconds === 0 )
     {
-      if (timerState === timerStates.RUNNING) {
+      if (timerState === timerStates.STUDY) {
         return startBreak();
       } else {
         return startStudy();
@@ -57,13 +70,7 @@ function reduceTimer() {
   return currentTime.subtract(1, 'second');
 }
 
-function startBreak() {
-  if (timerState !== timerStates.PAUSED ){
-    currentTime = moment.duration(breakTime.asMilliseconds());
-  }
-  outputString('alert', "Starting Break");
-  timerState = timerStates.BREAK;
-}
+
 
 function stopTimer(){
   timerState = timerStates.STOPPED;
@@ -73,16 +80,16 @@ function stopTimer(){
 
 function pauseTimer(){
   outputString('alert', "Paused Timer");
-  timerState = timerStates.PAUSED;
   return clearTimeout(countDown);
 }
 
 function outputString(type, str){
+  console.log(str)
   eventEmitter.emit('timeChange', str);
 }
 
 setTime(0, 0, 10);
-startTimer();
+
 
 function onTimerModified(command, payload){
   console.log('timer modify command received by timer!');
@@ -97,19 +104,33 @@ function onTimerModified(command, payload){
     case 'start':
       startTimer();
       break;
+    case 'resume':
+      resumeTimer();
+      break;
     case 'setTime':
       setTime(payload);
       break;
     default:
       console.log('command not recognized');
   }
-
-
-
-  return pauseTimer();
 }
 
 eventEmitter.on('modifyTimer', onTimerModified);
+
+eventEmitter.emit('modifyTimer', 'start');
+
+setTimeout(() => {
+  eventEmitter.emit('modifyTimer', 'pause');
+}, 3000);
+
+setTimeout(() => {
+  eventEmitter.emit('modifyTimer', 'resume');
+}, 5000);
+
+setTimeout(() => {
+  eventEmitter.emit('modifyTimer', 'stop');
+}, 10000);
+
 
 module.exports = {
   eventEmitter: eventEmitter
