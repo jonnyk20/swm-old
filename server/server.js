@@ -1,19 +1,22 @@
 const io = require('socket.io')();
-io.on('connection', (client) => {
-  // here you can start emitting events to the client 
-});
+
+
 
 io.on('connection', (client) => {
-  io.on('connection', (client) => {
-    client.on('subscribeToTimer', (interval) => {
-      console.log('client is subscribing to timer with interval ', interval);
-      setInterval(() => {
-        client.emit('timer', new Date());
-      }, interval);
-    });
+  console.log("client connected");
+
+  client.on('subscribeToTimer', (interval) => {
+    console.log('client is subscribing to timer with interval ', interval);
+    setInterval(() => {
+      client.emit('timer', new Date());
+    }, interval);
   });
-});
 
+  socket.on('disconnect', function() {
+      console.log('client disconneted!');
+   });
+
+});
 
 
 const port = 8000;
