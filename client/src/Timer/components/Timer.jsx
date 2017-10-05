@@ -3,7 +3,6 @@ import moment from 'moment';
 import TimerHeader from '../../TimerHeader/components/TimerHeader';
 import TimerDisplay from '../../TimerDisplay/components/TimerDisplay';
 import TimerButton from '../../TimerButton/components/TimerButton';
-import TimerConfig from '../../TimerConfig/components/TimerConfig';
 
 import * as timerStates from '../../timerStates';
 
@@ -114,16 +113,6 @@ class Timer extends Component {
           pauseTimer={this.pauseTimer}
           timerState={this.state.timerState}
         />
-        {
-          (this.state.timerState !== timerStates.RUNNING)
-          &&
-          (<TimerConfig 
-              studyTime={this.state.studyTime}
-              setStudyTime={this.setStudyTime}
-              breakTime={this.state.breakTime}
-              setBreakTime={this.setBreakTime}
-            />)
-        }
       </div>
     );
   }

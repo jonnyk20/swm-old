@@ -6,12 +6,12 @@ io.on('connection', (client) => {
   client.emit('timer', 'welcome!');
  
   const timerUpdate = function (str) {
-    client.emit('timer', str);
+    client.emit('timenr', str);
   }
 
-  client.on('modifyTimer', function(command, payload) {
+  client.on('modifyTimer', function(command, newStudyTime, newBreakTime) {
     console.log('command from client:', command);
-    timer.eventEmitter.emit('modifyTimer', command, payload);
+    timer.eventEmitter.emit('modifyTimer', command, newStudyTime, newBreakTime);
   });
 
   client.on('disconnect', function() {

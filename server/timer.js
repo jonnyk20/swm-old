@@ -7,7 +7,6 @@ var eventEmitter = new events.EventEmitter();
 
 const pad = (num) => leftPad(num, 2, '0');
 
-
 let timerState = timerStates.STOPPED;
 let countDown;
 
@@ -18,12 +17,10 @@ let breakTime = moment.duration(5, 'seconds');
 
 function setTime(studyTimeArray, breakTimeArray){
   const newStudyTime = moment.duration({
-    hours: studyTimeArray[0],
     minutes: studyTimeArray[1],
     seconds: studyTimeArray[2]
   })
   const newBreakTime = moment.duration({
-    hours: breakTimeArray[0],
     minutes: breakTimeArray[1],
     seconds: breakTimeArray[2]
   });
@@ -57,13 +54,11 @@ function startBreak() {
 }
 
 function reduceTimer() {
-  const currentHours = currentTime.hours();
   const currentMinutes = currentTime.minutes();
   const currentSeconds = currentTime.seconds();
-  const timeString = `${pad(currentHours)}:${pad(currentMinutes)}:${pad(currentSeconds)}`
+  const timeString = `${pad(currentMinutes)}:${pad(currentSeconds)}`
   outputString('time', timeString);
-  if (currentHours === 0 &&
-      currentMinutes === 0 &&
+  if (currentMinutes === 0 &&
       currentSeconds === 0 )
     {
       if (timerState === timerStates.STUDY) {
@@ -93,7 +88,7 @@ function outputString(type, str){
   eventEmitter.emit('timeChange', str);
 }
 
-//setTime([0, 0, 7], [0, 0, 3]);
+setTime([0, 7], [0, 3]);
 
 
 function onTimerModified(command, studyTime, breakTime){
@@ -123,30 +118,26 @@ function onTimerModified(command, studyTime, breakTime){
 
 eventEmitter.on('modifyTimer', onTimerModified);
 
-eventEmitter.emit('modifyTimer', 'setTime', 
-    [0, 0, 7], 
-    [0, 0, 3]
-  );
 
-setTimeout(() => {
-  eventEmitter.emit('modifyTimer', 'start');
-}, 5000);
+// setTimeout(() => {
+//   eventEmitter.emit('modifyTimer', 'start');
+// }, 5000);
 
-setTimeout(() => {
-  eventEmitter.emit('modifyTimer', 'start');
-}, 10000);
+// setTimeout(() => {
+//   eventEmitter.emit('modifyTimer', 'start');
+// }, 10000);
 
-setTimeout(() => {
-  eventEmitter.emit('modifyTimer', 'pause');
-}, 15000);
+// setTimeout(() => {
+//   eventEmitter.emit('modifyTimer', 'pause');
+// }, 15000);
 
-setTimeout(() => {
-  eventEmitter.emit('modifyTimer', 'resume');
-}, 20000);
+// setTimeout(() => {
+//   eventEmitter.emit('modifyTimer', 'resume');
+// }, 20000);
 
-setTimeout(() => {
-  eventEmitter.emit('modifyTimer', 'stop');
-}, 25000);
+// setTimeout(() => {
+//   eventEmitter.emit('modifyTimer', 'stop');
+// }, 25000);
 
 module.exports = {
   eventEmitter: eventEmitter

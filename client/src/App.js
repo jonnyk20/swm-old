@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Timer from './Timer/components/Timer';
 import './App.css';
-import { subscribeToTimer } from './socketConnect';
+import { subscribeToTimer, modifyTimer } from './socketConnect';
 import AdminPanel from './AdminPanel/components/AdminPanel';
 
 class App extends Component {
@@ -10,19 +10,28 @@ class App extends Component {
     subscribeToTimer( 1000 , (err, timestamp) => this.setState({ 
       timestamp 
     }));
+    this.controlTimer = this.controlTimer.bind(this)
   }
   state = {
     timestamp: 'no timestamp yet'
   };
   render() {
     return (
+      <div className='container'>
+         <AdminPanel 
+          timestamp={ this.state.timestamp }
+          controlTimer={ this.controlTimer }
+          />
       <div className='panel panel-default app-content center-block'>
         <div className='panel-body'>
-          <AdminPanel timestamp={ this.state.timestamp }/>
           <Timer timestamp={ this.state.timestamp }/>
         </div>
       </div>
+      </div>
     );
+  }
+  controlTimer(command){
+    modifyTimer(command)
   }
 }
 

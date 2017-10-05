@@ -12,13 +12,13 @@ socket.on('reconnect_failed', function() {
     console.log('Reconnection failed');
 });
 
-function modifyTimer(command, payload){
-  socket.emit('modifyTimer', command, JSON.stringify(payload) || null);
+function modifyTimer(command, newStudyTime, newBreakTime){
+  socket.emit('modifyTimer', command, newStudyTime, newBreakTime);
   console.log('modify event emitted');
 }
 
-setTimeout( () => modifyTimer('pause'), 5000);
-setTimeout( () => modifyTimer('start'), 10000);
+// setTimeout( () => modifyTimer('pause'), 5000);
+// setTimeout( () => modifyTimer('start'), 10000);
 
 export { 
   subscribeToTimer,
