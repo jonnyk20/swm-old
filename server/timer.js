@@ -2,6 +2,9 @@ const leftPad = require('left-pad');
 const moment = require('moment');
 const timerStates = require('./timerStates');
 
+var events = require('events');
+var eventEmitter = new events.EventEmitter();
+
 const pad = (num) => leftPad(num, 2, '0');
 
 
@@ -76,9 +79,12 @@ function pauseTimer(){
 }
 
 function outputString(type, str){
-  console.log(str);
-  return "hey";
+  eventEmitter.emit('timeChange', str);
 }
 
 setStudyTime(0, 0, 10);
 startTimer();
+
+module.exports = {
+  eventEmitter: eventEmitter
+}
