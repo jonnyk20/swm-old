@@ -1,22 +1,21 @@
 const io = require('socket.io')();
-const timer = require('/timer.js');
+const timer = require('./timer.js');
 
 io.on('connection', (client) => {
   console.log("client connected");
   client.emit('timer', 'welcome!');
-  client.on('subscribeToTimer', (interval) => {
-    console.log('client is subscribing to timer with interval ', 1000);
-    setInterval(() => {
-      client.emit('timer', new Date());
-    }, interval);
-  });
+ 
+  const timerUpdate = function (str) {
+    client.emit('timer', str);
+    console.log('New string emitted', str);
+  }
 
-  io.on('disconnect', function() {
+  client.on('disconnect', function() {
       console.log('client disconneted!');
    });
 
+  timer.eventEmitter.on('timeChange', timerUpdate);
 });
-
 
 const port = 8000;
 io.listen(port);
