@@ -1,21 +1,84 @@
 const leftPad = require('left-pad');
 const moment = require('moment');
+const timerStates = require('./timerStates');
+
 const pad = (num) => leftPad(num, 2, '0');
 
-const duration = moment.duration(5, 'seconds');
 
-const count = setInterval(function(){
-  const currentHours = duration.get('hours');
-  const currentMinutes = duration.get('minutes');
-  const currentSeconds = duration.get('seconds');
+let timerState = timerStates.STOPPED;
+let countDown;
+
+let studyTime = moment.duration(10, 'seconds');
+let currentTime; 
+
+let breakTime = moment.duration(5, 'seconds');
+
+function setStudyTime(hours = 0, minutes = 0, seconds = 0){
+  const newStudyTime = moment.duration({
+    hours: hours,
+    minutes: minutes,
+    seconds: seconds
+  })
+  studyTime = newStudyTime;
+}
+
+function startTimer() {
+  countDown = setInterval(reduceTimer, 1000);
+  return startStudy();
+}
+
+function startStudy() {
+  if (timerState !== timerStates.PAUSED ){
+    currentTime = moment.duration(studyTime.asMilliseconds());
+  }
+  outputString('alert', "Starting Study");
+  timerState = timerStates.RUNNING;
+}
+
+
+function reduceTimer() {
+  const currentHours = currentTime.get('hours');
+  const currentMinutes = currentTime.get('minutes');
+  const currentSeconds = currentTime.get('seconds');
+  const timeString = `${pad(currentHours)}:${pad(currentMinutes)}:${pad(currentSeconds)}`
+  outputString('time', timeString);
   if (currentHours === 0 &&
       currentMinutes === 0 &&
       currentSeconds === 0 )
     {
-      return clear();
-    }
-  console.log(pad(currentSeconds))
-  duration.subtract(1, 'second');
-}, 1000)
+      if (timerState === timerStates.RUNNING) {
+        return startBreak();
+      } else {
+        return startStudy();
+      }
+    } 
+  return currentTime.subtract(1, 'second');
+}
 
-const clear = () => clearTimeout(count);
+function startBreak() {
+  if (timerState !== timerStates.PAUSED ){
+    currentTime = moment.duration(breakTime.asMilliseconds());
+  }
+  outputString('alert', "Starting Break");
+  timerState = timerStates.BREAK;
+}
+
+function stopTimer(){
+  timerState = timerStates.STOPPED;
+  outputString('alert', "Stopped Timer");
+  return clearTimeout(countDown);
+}
+
+function pauseTimer(){
+  outputString('alert', "Paused Timer");
+  timerState = timerStates.PAUSED;
+  return clearTimeout(countDown);
+}
+
+function outputString(type, str){
+  console.log(str);
+  return "hey";
+}
+
+setStudyTime(0, 0, 10);
+startTimer();
