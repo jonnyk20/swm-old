@@ -93,6 +93,18 @@ class Timer extends EventEmitter {
     return this._breakTime.humanize();
   }
 
+  get timerInfo() {
+    const timerInfo = {
+      studyMinutes: this._studyTime.minutes(),
+      studySeconds: this._studyTime.seconds(),
+      breakMinutes: this._breakTime.minutes(),
+      breakSeconds: this._breakTime.seconds(),
+      timerState: this._timerState,
+      timerCycle: this._timerCycle
+    }
+    return JSON.stringify(timerInfo);
+  }
+
   accessTimer(command, studyTime, breakTime){
     console.log('timer access command received by timer!');
     switch (command){
@@ -121,32 +133,37 @@ class Timer extends EventEmitter {
 module.exports = Timer;
 
 /////////////////////////////////////
-const t = new Timer([0, 8], [0, 3]);
+// const t = new Timer([0, 8], [0, 3]);
+// t.startTimer();
+// setTimeout(function() {
+//   console.log(t.timerInfo)
+// }, 3000);
+
 
 // console.log(t.studyTime);
 //t.startTimer();
 
-t.accessTimer('setTime', [0, 10], [0, 5])
+// t.accessTimer('setTime', [0, 10], [0, 5])
 
-setTimeout(function() {
-  t.accessTimer('start')
-}, 3000);
-
-
-setTimeout(function() {
-  t.accessTimer('pause')
-}, 5000);
-
-setTimeout(function() {
-  t.accessTimer('resume')
-}, 7000);
-
-setTimeout(function() {
-  t.accessTimer('stop')
-}, 10000);
+// setTimeout(function() {
+//   t.accessTimer('start')
+// }, 3000);
 
 
+// setTimeout(function() {
+//   t.accessTimer('pause')
+// }, 5000);
 
-t.on('tick', (type, data) => {
-  console.log(type, data);
-})
+// setTimeout(function() {
+//   t.accessTimer('resume')
+// }, 7000);
+
+// setTimeout(function() {
+//   t.accessTimer('stop')
+// }, 10000);
+
+
+
+// t.on('tick', (type, data) => {
+//   console.log(type, data);
+// })

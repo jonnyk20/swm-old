@@ -5,7 +5,8 @@ class AdminPanel extends Component {
   constructor(props){
     super(props);
     this.onCommandClick = this.onCommandClick.bind(this);
-    this.onSetTimer = this.onSetTimer.bind(this);
+    console.log(this.props.studyTime)
+    
   }
   render() {
     return (
@@ -21,7 +22,11 @@ class AdminPanel extends Component {
               </div>
               
               <div className='col-md-5'>
-                <TimerConfig onSetTimer={ this.onSetTimer }/>
+                <TimerConfig 
+                  studyTime={ this.props.studyTime }
+                  breakTime={ this.props.breakTime }
+                  onSetTimer={ this.props.onSetTimer }
+                />
               </div>
             </div>
           </div>
@@ -36,10 +41,7 @@ class AdminPanel extends Component {
   onTestClick(){
     console.log('click handler')
   }
-  onSetTimer({ studyMinutes, studySeconds, breakMinutes, breakSeconds}){
-    console.log("timer is set")
-    this.props.controlTimer('setTime', [studyMinutes, studySeconds], [breakMinutes, breakSeconds])
-  }
+
 }
   
 export default AdminPanel;

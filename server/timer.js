@@ -41,14 +41,14 @@ function resumeTimer() {
 
 function startStudy() {
   currentTime = moment.duration(studyTime.asMilliseconds());
-  outputString('alert', "Starting Study");
+  outputString('alert', 'study');
   timerState = timerStates.STUDY;
   return;
 }
 
 function startBreak() {
   currentTime = moment.duration(breakTime.asMilliseconds());
-  outputString('alert', "Starting Break");
+  outputString('alert', 'break');
   timerState = timerStates.BREAK;
   return;
 }
@@ -74,12 +74,12 @@ function reduceTimer() {
 
 function stopTimer(){
   timerState = timerStates.STOPPED;
-  outputString('alert', "Stopped Timer");
+  outputString('alert', 'stopped');
   return clearTimeout(countDown);
 }
 
 function pauseTimer(){
-  outputString('alert', "Paused Timer");
+  outputString('alert', 'paused');
   return clearTimeout(countDown);
 }
 

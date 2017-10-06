@@ -1,14 +1,14 @@
 import React, {Component} from 'react';
 
 class TimerConfig extends Component {
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
     this.handleChange = this.handleChange.bind(this);
     this.state = {
-      studyMinutes: 0,
-      studySeconds: 10,
-      breakMinutes: 0,
-      breakSeconds: 5
+      studyMinutes: this.props.studyTime[0],
+      studySeconds: this.props.studyTime[1],
+      breakMinutes: this.props.breakTime[0],
+      breakSeconds: this.props.breakTime[1]
     }
   }
   handleChange(ev){
@@ -52,7 +52,7 @@ class TimerConfig extends Component {
                     id='studySeconds'
                     className='form-control' 
                     type='number' 
-                    value={ this.state.studySeconds }
+                    value={ this.props.studyTime[1] }
                     onChange={ this.handleChange }
                   />
                 </div>
