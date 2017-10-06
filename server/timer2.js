@@ -2,6 +2,7 @@ const { EventEmitter } = require('events');
 const leftPad = require('left-pad');
 const moment = require('moment');
 const timerStates = require('./timerStates');
+const timerCycles = require('./timerCycles');
 const pad = (num) => leftPad(num, 2, '0');
 
 class Timer extends EventEmitter {
@@ -23,25 +24,29 @@ class Timer extends EventEmitter {
   }
   
   startTimer() {
+    if (this._timerState === timerStates.RUNNING) {
+      return;
+    }
     this._countDown = setInterval(() => this.reduceTimer(), 1000);
+    this._timerState = timerStates.RUNNING;
     return this.startStudy();
   }
 
   startStudy(){
     this.tick('alert', 'starting study')
     this._currentTime = moment.duration(this._studyTime.asMilliseconds());
-    this._timerState = timerStates.STUDY;
+    this._timerCycle = timerCycles.STUDY;
   }
 
   startBreak(){
     this.tick('alert', 'starting break')
     this._currentTime = moment.duration(this._breakTime.asMilliseconds());
-    this._timerState = timerStates.BREAK;
+    this._timerCycle = timerCycles.BREAK;
   }
 
   reduceTimer() {
     if (this._currentTime.asSeconds() === 0 ) {
-      if (this._timerState === timerStates.STUDY) {
+      if (this._timerCycle === timerCycles.STUDY) {
         return this.startBreak();
       } else {
         return this.startStudy();
@@ -59,11 +64,16 @@ class Timer extends EventEmitter {
   }
 
   pauseTimer() {
+    this._timerState = timerStates.PAUSED;
     this.tick('alert', 'timer paused');
     clearInterval(this._countDown);
   }
 
   resumeTimer() {
+    if (this._timerState === timerStates.RUNNING) {
+      return;
+    }
+    this._timerState = timerStates.RUNNING;
     this.tick('alert', 'timer resumed');
     this._countDown = setInterval(() => this.reduceTimer(), 1000);
   }
