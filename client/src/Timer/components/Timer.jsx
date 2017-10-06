@@ -9,7 +9,6 @@ import * as timerStates from '../../timerStates';
 class Timer extends Component {
   constructor() {
     super();
-
     this.state = {
       currentTime: moment.duration(2, 'minutes'),
       studyTime: moment.duration(2, 'minutes'), // change to 45

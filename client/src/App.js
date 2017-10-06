@@ -30,8 +30,8 @@ class App extends Component {
       </div>
     );
   }
-  controlTimer(command){
-    modifyTimer(command)
+  controlTimer(command, newStudyTime, newBreakTime){
+    modifyTimer(command, newStudyTime, newBreakTime)
   }
 }
 

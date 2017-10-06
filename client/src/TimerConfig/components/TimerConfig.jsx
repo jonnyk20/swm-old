@@ -4,9 +4,18 @@ class TimerConfig extends Component {
   constructor(){
     super();
     this.handleChange = this.handleChange.bind(this);
+    this.state = {
+      studyMinutes: 0,
+      studySeconds: 10,
+      breakMinutes: 0,
+      breakSeconds: 5
+    }
   }
   handleChange(ev){
-    console.log('yah')
+    console.log(ev.target.id)
+    this.setState({
+      [ev.target.id]: parseInt(ev.target.value, 10)
+    }, () => this.props.onSetTimer(this.state));
   }
 
   render() {
@@ -15,36 +24,36 @@ class TimerConfig extends Component {
         <div className='row'>
           <div className='col-md-5'>
             <div className='row'>
-             <h4>Study Time</h4>
+             Study Time
             </div>
             <div className='row'>
 
-              <div className='col-sm-3'>
+              <div className='col-sm-6'>
                 <div className='row'>
                   Min
                 </div>
                 <div className='row'>
                   <input 
-                      id='study-minutes'
+                      id='studyMinutes'
                       className='form-control' 
                       type='number' 
-                      defaultValue={0}
-                      onChange={this.handleChange}
+                      value={ this.state.studyMinutes }
+                      onChange={ this.handleChange }
                     />
                 </div>
               </div>
 
-              <div className='col-sm-3'>
+              <div className='col-sm-6'>
                 <div className='row'>
                   Sec
                 </div>
                 <div className='row'>
                   <input 
-                    id='study-seconds'
+                    id='studySeconds'
                     className='form-control' 
                     type='number' 
-                    defaultValue={0}
-                    onChange={this.handleChange}
+                    value={ this.state.studySeconds }
+                    onChange={ this.handleChange }
                   />
                 </div>
               </div>
@@ -53,44 +62,41 @@ class TimerConfig extends Component {
           </div>
           <div className='col-md-5'>
             <div className='row'>
-              <h4>Break Time</h4>
+              Break Time
             </div>
             <div className='row'>
 
-              <div className='col-sm-3'>
+              <div className='col-sm-6'>
                 <div className='row'>
                   Min
                 </div>
                 <div className='row'>
                   <input 
-                    id='break-seconds'
+                    id='breakMinutes'
                     className='form-control' 
                     type='number' 
-                    defaultValue={0}
-                    onChange={this.handleChange}
+                    value={ this.state.breakMinutes }
+                    onChange={ this.handleChange }
                   />
                 </div>
               </div>
 
-              <div className='col-sm-3'>
+              <div className='col-sm-6'>
                 <div className='row'>
                   Sec
                 </div>
                 <div className='row'>
                   <input 
-                    id='break-seconds'
+                    id='breakSeconds'
                     className='form-control' 
                     type='number' 
-                    defaultValue={0}
-                    onChange={this.handleChange}
+                    value={ this.state.breakSeconds }
+                    onChange={ this.handleChange }
                   />
                 </div>
               </div>
 
             </div>
-          </div>
-          <div className='col-md-1'>
-            <button className='btn btn-primary' data-command='start' onClick={() => console.log('hey')}>Start</button>
           </div>
         </div>
       </div>

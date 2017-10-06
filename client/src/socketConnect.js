@@ -15,6 +15,7 @@ socket.on('reconnect_failed', function() {
 function modifyTimer(command, newStudyTime, newBreakTime){
   socket.emit('modifyTimer', command, newStudyTime, newBreakTime);
   console.log('modify event emitted');
+  console.log(command, newStudyTime, newBreakTime);
 }
 
 // setTimeout( () => modifyTimer('pause'), 5000);
