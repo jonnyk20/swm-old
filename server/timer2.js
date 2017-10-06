@@ -5,10 +5,16 @@ const timerStates = require('./timerStates');
 const pad = (num) => leftPad(num, 2, '0');
 
 class Timer extends EventEmitter {
-  constructor(StudyDuration, StudyUnits, BreakDuration, BreakUnits) {
+  constructor([studyMinutes, StudySeconds], [breakMinutes, breakSeconds]) {
     super();
-    this._studyTime = moment.duration(StudyDuration, StudyUnits);
-    this._breakTime = moment.duration(BreakDuration, BreakUnits);
+    this._studyTime = moment.duration({
+      minutes: studyMinutes,
+      seconds: StudySeconds
+    });
+    this._breakTime = moment.duration({
+      minutes: breakMinutes,
+      seconds: breakSeconds
+    });
     this._timerState = timerStates.STOPPED;
     console.log(`Timer::ctor`);
   }
@@ -79,7 +85,7 @@ class Timer extends EventEmitter {
 module.exports = Timer;
 
 /////////////////////////////////////
-const t = new Timer(8, 'seconds', 3, 'seconds');
+const t = new Timer([0, 8], [0, 3]);
 
 // console.log(t.studyTime);
 t.startTimer();
