@@ -2,7 +2,7 @@ import openSocket from 'socket.io-client';
 const socket = openSocket('http://localhost:8000', {'reconnection': false});
 
 function subscribeToTimer(interval, cb) {
-  socket.on('timer', timestamp => cb(null, timestamp));
+  socket.on('timer', str => cb(null, str));
 } 
 
 socket.on('connect_error', function() {
@@ -17,9 +17,6 @@ function modifyTimer(command, newStudyTime, newBreakTime){
   console.log('modify event emitted');
   console.log(command, newStudyTime, newBreakTime);
 }
-
-// setTimeout( () => modifyTimer('pause'), 5000);
-// setTimeout( () => modifyTimer('start'), 10000);
 
 export { 
   subscribeToTimer,

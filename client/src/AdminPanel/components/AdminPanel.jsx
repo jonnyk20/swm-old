@@ -13,7 +13,7 @@ class AdminPanel extends Component {
             <div className='admin row'>
              
               <div className='col-sm-3'>
-                <button className='btn btn-success' data-command='start' onClick={() => this.onTestClick()}>Start</button>
+                <button className='btn btn-success' data-command='start' onClick={this.onCommandClick}>Start</button>
                 <button className='btn btn-danger' data-command='stop' onClick={this.onCommandClick}>Stop</button>
                 <button className='btn btn-primary' data-command='pause' onClick={this.onCommandClick}>Pause</button>
                 <button className='btn btn-info' data-command='resume' onClick={this.onCommandClick}>Resume</button>
@@ -38,7 +38,7 @@ class AdminPanel extends Component {
   }
   onSetTimer({ studyMinutes, studySeconds, breakMinutes, breakSeconds}){
     console.log("timer is set")
-    this.props.controlTimer('setTimer', [studyMinutes, studySeconds], [breakMinutes, breakSeconds])
+    this.props.controlTimer('setTime', [studyMinutes, studySeconds], [breakMinutes, breakSeconds])
   }
 }
   

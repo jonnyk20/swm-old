@@ -5,8 +5,13 @@ const timerStates = require('./timerStates');
 const pad = (num) => leftPad(num, 2, '0');
 
 class Timer extends EventEmitter {
-  constructor([studyMinutes, StudySeconds], [breakMinutes, breakSeconds]) {
+  constructor(studyTimeArr, breakTimeArr) {
     super();
+    this.setTimer(studyTimeArr, breakTimeArr);
+    this._timerState = timerStates.STOPPED;
+  }
+
+  setTimer([studyMinutes, StudySeconds], [breakMinutes, breakSeconds]) {
     this._studyTime = moment.duration({
       minutes: studyMinutes,
       seconds: StudySeconds
@@ -15,12 +20,6 @@ class Timer extends EventEmitter {
       minutes: breakMinutes,
       seconds: breakSeconds
     });
-    this._timerState = timerStates.STOPPED;
-    console.log(`Timer::ctor`);
-  }
-
-  set duration(studyTime) {
-    this._studyTime = studyTime; //mmt
   }
   
   startTimer() {
@@ -80,6 +79,33 @@ class Timer extends EventEmitter {
     return this._studyTime.humanize();
   }
 
+  get breakTime() {
+    return this._breakTime.humanize();
+  }
+
+  accessTimer(command, studyTime, breakTime){
+    console.log('timer access command received by timer!');
+    switch (command){
+      case 'stop':
+        this.stopTimer();
+        break;
+      case 'pause':
+        this.pauseTimer();
+        break;
+      case 'start':
+        this.startTimer();
+        break;
+      case 'resume':
+        this.resumeTimer();
+        break;
+      case 'setTime':
+        this.setTimer(studyTime, breakTime);
+        break;
+      default:
+        console.log('command not recognized');
+    }
+  }
+
 }
 
 module.exports = Timer;
@@ -88,20 +114,26 @@ module.exports = Timer;
 const t = new Timer([0, 8], [0, 3]);
 
 // console.log(t.studyTime);
-t.startTimer();
+//t.startTimer();
 
-// setTimeout(function() {
-//   t.pauseTimer();
-// }, 3000);
+t.accessTimer('setTime', [0, 10], [0, 5])
+
+setTimeout(function() {
+  t.accessTimer('start')
+}, 3000);
 
 
-// setTimeout(function() {
-//   t.resumeTimer();
-// }, 5000);
+setTimeout(function() {
+  t.accessTimer('pause')
+}, 5000);
 
-// setTimeout(function() {
-//   t.stopTimer();
-// }, 7000);
+setTimeout(function() {
+  t.accessTimer('resume')
+}, 7000);
+
+setTimeout(function() {
+  t.accessTimer('stop')
+}, 10000);
 
 
 
