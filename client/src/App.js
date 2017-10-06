@@ -19,8 +19,10 @@ class App extends Component {
       timestamp: 'Waiting for Time',
       timerState: timerStates.STOPPED,
       timerCycle: timerCycles.STUDY,
-      studyTime: [0, 0],
-      breakTime: [0, 0]
+      studyMinutes: 0,
+      studySeconds: 0,
+      breakMinutes: 0,
+      breakSeconds: 0,
     };
   }
   render() {
@@ -29,9 +31,11 @@ class App extends Component {
         <AdminPanel
           timestamp={ this.state.timestamp }
           controlTimer={ this.controlTimer }
-          studyTime={ this.state.studyTime }
-          breakTime={ this.state.breakTime }
           onSetTimer={ this.onSetTimer }
+          studyMinutes={ this.state.studyMinutes }
+          studySeconds={ this.state.studySeconds }
+          breakMinutes={ this.state.breakMinutes }
+          breakSeconds={ this.state.breakSeconds }
         />
           
       <div className='panel panel-default app-content center-block'>
@@ -69,17 +73,20 @@ class App extends Component {
       timerCycle
     } = JSON.parse(timerStatus);
     this.setState({
-      studyTime: [studyMinutes, studySeconds],
-      breakTime: [breakMinutes, breakSeconds],
+      studyMinutes,
+      studySeconds,
+      breakMinutes,
+      breakSeconds,
       timerState: timerStates[timerState],
       timerCycle: timerCycles[timerCycle],
     }, cb);
   }
-  onSetTimer({ studyMinutes, studySeconds, breakMinutes, breakSeconds }){
-    this.controlTimer('setTime', [studyMinutes, studySeconds], [breakMinutes, breakSeconds])
+  onSetTimer(timeProperty, timeValue){
+    console.log('Time prop: ', timeProperty, 'Time Value: ', timeValue )
     this.setState({
-      studyTime: [studyMinutes, studySeconds],
-      breakTime: [breakMinutes, breakSeconds]
+      [timeProperty]: timeValue
+    }, ()=>{
+      this.controlTimer('setTime', [this.state.studyMinutes, this.state.studySeconds], [this.state.breakMinutes, this.state.breakSeconds])
     })
   }
 }

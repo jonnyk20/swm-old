@@ -1,24 +1,11 @@
-import React, {Component} from 'react';
+import React from 'react';
 
-class TimerConfig extends Component {
-  constructor(props){
-    super(props);
-    this.handleChange = this.handleChange.bind(this);
-    this.state = {
-      studyMinutes: this.props.studyTime[0],
-      studySeconds: this.props.studyTime[1],
-      breakMinutes: this.props.breakTime[0],
-      breakSeconds: this.props.breakTime[1]
-    }
-  }
-  handleChange(ev){
-    console.log(ev.target.id)
-    this.setState({
-      [ev.target.id]: parseInt(ev.target.value, 10)
-    }, () => this.props.onSetTimer(this.state));
+const TimerConfig = (props) => {
+
+  const handleChange = (ev) => {
+    props.onSetTimer(ev.target.id, ev.target.value);
   }
 
-  render() {
     return (
       <div>
         <div className='row'>
@@ -37,8 +24,9 @@ class TimerConfig extends Component {
                       id='studyMinutes'
                       className='form-control' 
                       type='number' 
-                      value={ this.props.studyTime[0] }
-                      onChange={ this.handleChange }
+                      value={ props.studyMinutes }
+                      onChange={ handleChange }
+                      min='0'
                     />
                 </div>
               </div>
@@ -52,8 +40,9 @@ class TimerConfig extends Component {
                     id='studySeconds'
                     className='form-control' 
                     type='number' 
-                    value={ this.props.studyTime[1] }
-                    onChange={ this.handleChange }
+                    value={ props.studySeconds }
+                    onChange={ handleChange }
+                    min='0'
                   />
                 </div>
               </div>
@@ -75,8 +64,9 @@ class TimerConfig extends Component {
                     id='breakMinutes'
                     className='form-control' 
                     type='number' 
-                    value={ this.props.breakTime[0] }
-                    onChange={ this.handleChange }
+                    value={ props.breakMinutes }
+                    onChange={ handleChange }
+                    min='0'
                   />
                 </div>
               </div>
@@ -90,8 +80,9 @@ class TimerConfig extends Component {
                     id='breakSeconds'
                     className='form-control' 
                     type='number' 
-                    value={ this.props.breakTime[1] }
-                    onChange={ this.handleChange }
+                    value={ props.breakSeconds }
+                    onChange={ handleChange }
+                    min='0'
                   />
                 </div>
               </div>
@@ -101,7 +92,7 @@ class TimerConfig extends Component {
         </div>
       </div>
     );
-  }
+
 }
 
 export default TimerConfig;
