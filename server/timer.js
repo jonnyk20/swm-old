@@ -34,7 +34,7 @@ function startTimer(first) {
   return startStudy();
 }
 
-function resumeTimer(first) {
+function resumeTimer() {
   countDown = setInterval(reduceTimer, 1000);
   return;
 }

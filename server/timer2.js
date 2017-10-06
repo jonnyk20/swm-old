@@ -1,43 +1,104 @@
 const { EventEmitter } = require('events');
 const leftPad = require('left-pad');
 const moment = require('moment');
+const timerStates = require('./timerStates');
+const pad = (num) => leftPad(num, 2, '0');
 
 class Timer extends EventEmitter {
-  constructor(duration) {
+  constructor(StudyDuration, StudyUnits, BreakDuration, BreakUnits) {
     super();
-    console.log(`Timer::ctor`)
-    this._duration = duration;
-    this.setUpTimer(); 
+    this._studyTime = moment.duration(StudyDuration, StudyUnits);
+    this._breakTime = moment.duration(BreakDuration, BreakUnits);
+    this._timerState = timerStates.STOPPED;
+    console.log(`Timer::ctor`);
   }
 
-  setUpTimer() {
-    if(this._timer) {
-      clearInterval(this._timer);
+  set duration(studyTime) {
+    this._studyTime = studyTime; //mmt
+  }
+  
+  startTimer() {
+    this._countDown = setInterval(() => this.reduceTimer(), 1000);
+    return this.startStudy();
+  }
+
+  startStudy(){
+    this.tick('starting study')
+    this._currentTime = moment.duration(this._studyTime.asMilliseconds());
+    this._timerState = timerStates.STUDY;
+  }
+
+  startBreak(){
+    this.tick('starting break')
+    this._currentTime = moment.duration(this._breakTime.asMilliseconds());
+    this._timerState = timerStates.BREAK;
+  }
+
+  reduceTimer() {
+    if (this._currentTime.asSeconds() === 0 ) {
+      if (this._timerState === timerStates.STUDY) {
+        return this.startBreak();
+      } else {
+        return this.startStudy();
+      }
     }
-    this._timer = setInterval(() => this.tick(), this.duration * 1000);
+    const currentMinutes = this._currentTime.minutes();
+    const currentSeconds = this._currentTime.seconds();
+    const timeString = `${pad(currentMinutes)}:${pad(currentSeconds)}`
+    this.tick(timeString);
+    return this._currentTime.subtract(1, 'second');
   }
 
-  tick() {
-    // console.log(`Timer::tick(${this.duration})`);
-    this.emit('tick', new Date().getTime());
+  tick(str) {
+    this.emit('tick', str);
   }
 
-  start() {
-    this.setUpTimer(this.duration);
+  pauseTimer() {
+    this.tick('timer paused');
+    clearInterval(this._countDown);
   }
 
-  stop() {
-    clearInterval(this._timer);
+  resumeTimer() {
+    this.tick('timer resumed');
+    this._countDown = setInterval(() => this.reduceTimer(), 1000);
   }
 
-  get duration() {
-    return this._duration;
+  stopTimer() {
+    clearInterval(this._countDown);
+    this._currentTime = moment.duration(this._studyTime.asMilliseconds());
+    this._timerState = timerStates.STOPPED;
+    this.tick('timer stopped');
   }
 
-  set duration(value) {
-    this._duration = value;
-    this.setUpTimer();
+  get studyTime() {
+    return this._studyTime.humanize();
   }
+
 }
 
 module.exports = Timer;
+
+/////////////////////////////////////
+const t = new Timer(8, 'seconds', 3, 'seconds');
+
+// console.log(t.studyTime);
+t.startTimer();
+
+// setTimeout(function() {
+//   t.pauseTimer();
+// }, 3000);
+
+
+// setTimeout(function() {
+//   t.resumeTimer();
+// }, 5000);
+
+// setTimeout(function() {
+//   t.stopTimer();
+// }, 7000);
+
+
+
+t.on('tick', (data) => {
+  console.log(data);
+})
