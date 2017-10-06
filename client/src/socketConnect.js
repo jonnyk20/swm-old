@@ -15,14 +15,10 @@ function subscribeToTimer(onInitiated, onUpdated) {
   socket.emit('requestStatus');
   socket.on('timerStatus', function(status){
     console.log('status received')
-    onInitiated(null, status, () =>{
-      socket.on('timerUpdate', (type, str) => onUpdated(type, str))
-    })
+    onInitiated(null, status);
   })
-  console.log('request for status sent')
-
-  //socket.on('timerStatus', (timerStatus) => onInitiated(null, timerStatus))
-  //socket.on('timer', (type, str) => cb(null, type, str));
+  socket.on('timerUpdate', (type, str) => onUpdated(type, str))
+  console.log('request for status sent');
 } 
 function modifyTimer(command, newStudyTime, newBreakTime){
   socket.emit('modifyTimer', command, newStudyTime, newBreakTime);

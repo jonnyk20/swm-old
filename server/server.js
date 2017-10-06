@@ -22,13 +22,13 @@ io.on('connection', (client) => {
   client.on('modifyTimer', function(command, newStudyTime, newBreakTime) {
     console.log('command from client:', command);
     t.accessTimer(command, newStudyTime, newBreakTime);
+    client.emit('timerStatus', t.timerInfo)
   });
 
   client.on('disconnect', function() {
     console.log('client disconneted!');
   });
 
-  //timer.eventEmitter.on('timeChange', timerUpdate);
 });
 
 

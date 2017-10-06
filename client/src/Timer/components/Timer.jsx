@@ -1,25 +1,20 @@
 import React, {Component} from 'react';
-import moment from 'moment';
 import TimerHeader from '../../TimerHeader/components/TimerHeader';
 import TimerDisplay from '../../TimerDisplay/components/TimerDisplay';
 
 
 
 class Timer extends Component {
-  constructor() {
-    super();
-    this.state = {
-      currentTime: moment.duration(2, 'minutes')
-    };
-  }
-
   render()
   {
     return (
       
       <div className='container-fluid'>
         
-        <TimerHeader />
+        <TimerHeader 
+          timerState={ this.props.timerState }
+          timerCycle={ this.props.timerCycle }
+        />
         <TimerDisplay 
           timestamp={ this.props.timestamp }
         />

@@ -37,7 +37,7 @@ class TimerConfig extends Component {
                       id='studyMinutes'
                       className='form-control' 
                       type='number' 
-                      value={ this.state.studyMinutes }
+                      value={ this.props.studyTime[0] }
                       onChange={ this.handleChange }
                     />
                 </div>
@@ -75,7 +75,7 @@ class TimerConfig extends Component {
                     id='breakMinutes'
                     className='form-control' 
                     type='number' 
-                    value={ this.state.breakMinutes }
+                    value={ this.props.breakTime[0] }
                     onChange={ this.handleChange }
                   />
                 </div>
@@ -90,7 +90,7 @@ class TimerConfig extends Component {
                     id='breakSeconds'
                     className='form-control' 
                     type='number' 
-                    value={ this.state.breakSeconds }
+                    value={ this.props.breakTime[1] }
                     onChange={ this.handleChange }
                   />
                 </div>

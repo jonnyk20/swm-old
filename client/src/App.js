@@ -17,7 +17,8 @@ class App extends Component {
     this.onSetTimer = this.onSetTimer.bind(this);
     this.state = {
       timestamp: 'Waiting for Time',
-      timerstate: timerStates.STOPPED,
+      timerState: timerStates.STOPPED,
+      timerCycle: timerCycles.STUDY,
       studyTime: [0, 0],
       breakTime: [0, 0]
     };
@@ -25,7 +26,7 @@ class App extends Component {
   render() {
     return (
       <div className='container'>
-        <AdminPanel 
+        <AdminPanel
           timestamp={ this.state.timestamp }
           controlTimer={ this.controlTimer }
           studyTime={ this.state.studyTime }
@@ -38,6 +39,8 @@ class App extends Component {
           <h4 className='text-center'> Study With Me</h4>
           <Timer 
             timestamp={ this.state.timestamp }
+            timerCycle={ this.state.timerCycle }
+            timerState={ this.state.timerState }
           />
         </div>
       </div>
@@ -45,10 +48,9 @@ class App extends Component {
     );
   }
   controlTimer(command, newStudyTime, newBreakTime){
-    modifyTimer(command, newStudyTime, newBreakTime)
+    modifyTimer(command, newStudyTime, newBreakTime);
   }
   onTimerUpdate = (type, str) => {
-
     console.log('timer updated:', type, str)
     if (type === 'time') {
       this.setState({ 
