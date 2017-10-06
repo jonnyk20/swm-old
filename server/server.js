@@ -2,9 +2,6 @@ const io = require('socket.io')();
 const timer = require('./timer.js');
 const Timer = require('./timer2.js');
 
-// const t = setInterval(() => {
-//   io.broadcast('timer');
-// }, 1000);
 
 const t = new Timer(1);
 
