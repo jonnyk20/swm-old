@@ -23,13 +23,13 @@ class Timer extends EventEmitter {
   }
 
   startStudy(){
-    this.tick('starting study')
+    this.tick('alert', 'starting study')
     this._currentTime = moment.duration(this._studyTime.asMilliseconds());
     this._timerState = timerStates.STUDY;
   }
 
   startBreak(){
-    this.tick('starting break')
+    this.tick('alert', 'starting break')
     this._currentTime = moment.duration(this._breakTime.asMilliseconds());
     this._timerState = timerStates.BREAK;
   }
@@ -45,21 +45,21 @@ class Timer extends EventEmitter {
     const currentMinutes = this._currentTime.minutes();
     const currentSeconds = this._currentTime.seconds();
     const timeString = `${pad(currentMinutes)}:${pad(currentSeconds)}`
-    this.tick(timeString);
+    this.tick('time', timeString);
     return this._currentTime.subtract(1, 'second');
   }
 
-  tick(str) {
-    this.emit('tick', str);
+  tick(type, str) {
+    this.emit('tick', type, str);
   }
 
   pauseTimer() {
-    this.tick('timer paused');
+    this.tick('alert', 'timer paused');
     clearInterval(this._countDown);
   }
 
   resumeTimer() {
-    this.tick('timer resumed');
+    this.tick('alert', 'timer resumed');
     this._countDown = setInterval(() => this.reduceTimer(), 1000);
   }
 
@@ -67,7 +67,7 @@ class Timer extends EventEmitter {
     clearInterval(this._countDown);
     this._currentTime = moment.duration(this._studyTime.asMilliseconds());
     this._timerState = timerStates.STOPPED;
-    this.tick('timer stopped');
+    this.tick('alert', 'timer stopped');
   }
 
   get studyTime() {
@@ -99,6 +99,6 @@ t.startTimer();
 
 
 
-t.on('tick', (data) => {
-  console.log(data);
+t.on('tick', (type, data) => {
+  console.log(type, data);
 })
