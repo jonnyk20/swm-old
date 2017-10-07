@@ -3,6 +3,7 @@ import Timer from './Timer/components/Timer';
 import './App.css';
 import { subscribeToTimer, modifyTimer} from './socketConnect';
 import AdminPanel from './AdminPanel/components/AdminPanel';
+import ChatContainer from './Chat/ChatContainer.jsx';
 import * as timerStates from './timerStates';
 import * as timerCycles from './timerCycles';
 
@@ -49,8 +50,10 @@ class App extends Component {
               timerCycle={ this.state.timerCycle }
               timerState={ this.state.timerState }
             />
+           
           </div>
         </div>
+        <ChatContainer />
         </div>
       </div>
     );

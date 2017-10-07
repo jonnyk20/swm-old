@@ -1,6 +1,5 @@
 const io = require('socket.io')();
-//const timer = require('./timer.js');
-const Timer = require('./timer2.js');
+const Timer = require('./timer.js');
 
 const t = new Timer([0, 10], [0, 5]);
 t.startTimer();
@@ -10,9 +9,18 @@ t.on('tick', (type, str) => {
   io.emit('timerUpdate', type, str);
 })
 
+
+
+
+
 io.on('connection', (client) => {
+
   console.log("client connected");
   client.emit('timer', 'welcome!');
+
+
+
+  // timer code
 
   client.on('requestStatus', function(){
     console.log('status sent')
@@ -28,6 +36,16 @@ io.on('connection', (client) => {
   client.on('disconnect', function() {
     console.log('client disconneted!');
   });
+
+
+
+  // chat code
+
+
+
+
+
+
 
 });
 
