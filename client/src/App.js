@@ -16,6 +16,8 @@ class App extends Component {
     this.onTimerUpdate = this.onTimerUpdate.bind(this)
     this.onTimerInitiated = this.onTimerInitiated.bind(this)
     this.onSetTimer = this.onSetTimer.bind(this);
+    this.onUserCountChange = this.onUserCountChange.bind(this);
+
     this.state = {
       admin: false,
       timestamp: 'Waiting for Time',
@@ -25,6 +27,7 @@ class App extends Component {
       studySeconds: 0,
       breakMinutes: 0,
       breakSeconds: 0,
+      onlineUsers: 0
     };
   }
   render() {
@@ -41,7 +44,7 @@ class App extends Component {
             breakMinutes={ this.state.breakMinutes }
             breakSeconds={ this.state.breakSeconds }
           /> }
-            
+            <div> Online users: { this.state.onlineUsers } </div>
         <div className='panel panel-default app-content center-block'>
           <div className='panel-body'>
             <h4 className='text-center'> Study With Me</h4>
@@ -53,7 +56,9 @@ class App extends Component {
            
           </div>
         </div>
-        <ChatContainer />
+        <ChatContainer
+          onUserCountChange={ this.onUserCountChange }
+         />
         </div>
       </div>
     );
@@ -99,6 +104,11 @@ class App extends Component {
       [timeProperty]: timeValue
     }, ()=>{
       this.controlTimer('setTime', [this.state.studyMinutes, this.state.studySeconds], [this.state.breakMinutes, this.state.breakSeconds])
+    })
+  }
+  onUserCountChange(newUserCount){
+    this.setState({
+      onlineUsers: newUserCount
     })
   }
 }

@@ -24,8 +24,32 @@
 
 .message-list {
   min-height: 100px;
+  margin-bottom: 15px;
 }
 
 .chat-input-container {
   padding: 0;
+}
+
+.message-username {
+  font-weight: bold;
+}
+
+.notification-content {
+    font-style: italic;
+}
+
+.user-purple {
+  color: #800080;
+}
+
+.user-orange {
+  color: #ffa500;
+}
+.user-green {
+  color: #00FF00;
+}
+
+.user-blue {
+  color: #0000ff;
 }

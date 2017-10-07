@@ -33,13 +33,20 @@ function sendMessageToSever(message){
   socket.emit('messageSubmit', message)
 }
 
-function updateChat(onNewMessage, onNewNotification){
-  socket.on('newMessage', onNewMessage)
+function sendUserNameChange(oldUsername, newUsername){
+  socket.emit('nameChange', oldUsername, newUsername)
+}
+
+function updateChat(onNewMessage, onNewNotification, assignColor){
+  socket.on('colorAssign', assignColor)
+  socket.on('newMessage', onNewMessage);
+  socket.on('newNotification', onNewNotification);
 }
 
 export { 
   subscribeToTimer,
   modifyTimer,
   sendMessageToSever,
+  sendUserNameChange,
   updateChat
 };

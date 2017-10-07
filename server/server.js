@@ -6,21 +6,39 @@ const t = new Timer([0, 10], [0, 5]);
 t.startTimer();
 
 t.on('tick', (type, str) => {
-  console.log(type, str);
   io.emit('timerUpdate', type, str);
 })
 
 
 
 
-
+let userColor = 0;
 io.on('connection', (client) => {
+  client.emit('colorAssign', userColor.toString())
+  userColor = userColor === 3 ? 0 : userColor + 1;
 
-  console.log("client connected");
+  const newUser ={
+    id: uuidv1(),
+    type: 'userCountChange',
+    content: 'A new user has connected',
+    userCount: io.engine.clientsCount,
+    timestamp: Date.now()
+  }
+
+  io.emit('newNotification', JSON.stringify(newUser))
+
   client.emit('timer', 'welcome!');
 
   client.on('disconnect', function() {
     console.log('client disconneted!');
+    const departingUser ={
+      id: uuidv1(),
+      type: 'userCountChange',
+      content: 'A user has disconnected',
+      userCount: io.engine.clientsCount,
+      timestamp: Date.now()
+    }
+    io.emit('newNotification', JSON.stringify(departingUser))
   });
 
 
@@ -44,9 +62,21 @@ io.on('connection', (client) => {
   client.on('messageSubmit', function(message){
     const submittedMesage = JSON.parse(message);
     submittedMesage.id = uuidv1();
+    submittedMesage.timestamp = Date.now();
     io.emit('newMessage', JSON.stringify(submittedMesage));
   })
 
+  client.on('nameChange', function(oldUsername, newUsername){
+    console.log('name chaange received')
+    console.log(oldUsername, newUsername)
+    const nameChangeUpdate = {
+      id: uuidv1(),
+      type: 'nameChange',
+      content: `${oldUsername} has changed their name ${newUsername}`,
+      timestamp: Date.now()
+    }
+    io.emit('newNotification', JSON.stringify(nameChangeUpdate));
+  })
 
 
 

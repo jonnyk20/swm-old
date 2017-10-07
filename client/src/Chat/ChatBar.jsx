@@ -52,8 +52,8 @@ class ChatBar extends Component {
     this.props.onSubmitMessage({
       type: 'message',
       username: this.state.user, 
-      content: this.state.message
-     // userCycle: this.props.cycleNumber
+      content: this.state.message,
+      color: this.props.user.color
     })
   }
 
