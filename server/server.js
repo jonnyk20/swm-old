@@ -1,5 +1,6 @@
 const io = require('socket.io')();
 const Timer = require('./timer.js');
+const uuidv1 = require('uuid/v1');
 
 const t = new Timer([0, 10], [0, 5]);
 t.startTimer();
@@ -18,6 +19,11 @@ io.on('connection', (client) => {
   console.log("client connected");
   client.emit('timer', 'welcome!');
 
+  client.on('disconnect', function() {
+    console.log('client disconneted!');
+  });
+
+
 
 
   // timer code
@@ -33,14 +39,13 @@ io.on('connection', (client) => {
     client.emit('timerStatus', t.timerInfo)
   });
 
-  client.on('disconnect', function() {
-    console.log('client disconneted!');
-  });
-
-
 
   // chat code
-
+  client.on('messageSubmit', function(message){
+    const submittedMesage = JSON.parse(message);
+    submittedMesage.id = uuidv1();
+    io.emit('newMessage', JSON.stringify(submittedMesage));
+  })
 
 
 

@@ -69,7 +69,6 @@ class App extends Component {
     modifyTimer(command, newStudyTime, newBreakTime);
   }
   onTimerUpdate = (type, str) => {
-    console.log('timer updated:', type, str)
     if (type === 'time') {
       this.setState({ 
       timestamp: str
@@ -96,7 +95,6 @@ class App extends Component {
     }, cb);
   }
   onSetTimer(timeProperty, timeValue){
-    console.log('Time prop: ', timeProperty, 'Time Value: ', timeValue )
     this.setState({
       [timeProperty]: timeValue
     }, ()=>{

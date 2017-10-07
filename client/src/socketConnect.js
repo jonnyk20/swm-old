@@ -2,7 +2,9 @@ import openSocket from 'socket.io-client';
 const socket = openSocket('http://localhost:8000', {'reconnection': false});
 
 
-socket.on('connection', )
+socket.on('connect', function(){
+  console.log('connected to socket')
+})
 
 socket.on('connect_error', function() {
   console.log('Connection failed');
@@ -10,6 +12,7 @@ socket.on('connect_error', function() {
 socket.on('reconnect_failed', function() {
   console.log('Reconnection failed');
 });
+
 
 function subscribeToTimer(onInitiated, onUpdated) {
   socket.emit('requestStatus');
@@ -26,7 +29,17 @@ function modifyTimer(command, newStudyTime, newBreakTime){
   console.log(command, newStudyTime, newBreakTime);
 }
 
+function sendMessageToSever(message){
+  socket.emit('messageSubmit', message)
+}
+
+function updateChat(onNewMessage, onNewNotification){
+  socket.on('newMessage', onNewMessage)
+}
+
 export { 
   subscribeToTimer,
-  modifyTimer
+  modifyTimer,
+  sendMessageToSever,
+  updateChat
 };
