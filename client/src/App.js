@@ -16,6 +16,7 @@ class App extends Component {
     this.onTimerInitiated = this.onTimerInitiated.bind(this)
     this.onSetTimer = this.onSetTimer.bind(this);
     this.state = {
+      admin: false,
       timestamp: 'Waiting for Time',
       timerState: timerStates.STOPPED,
       timerCycle: timerCycles.STUDY,
@@ -27,30 +28,40 @@ class App extends Component {
   }
   render() {
     return (
-      <div className='container'>
-        <AdminPanel
-          timestamp={ this.state.timestamp }
-          controlTimer={ this.controlTimer }
-          onSetTimer={ this.onSetTimer }
-          studyMinutes={ this.state.studyMinutes }
-          studySeconds={ this.state.studySeconds }
-          breakMinutes={ this.state.breakMinutes }
-          breakSeconds={ this.state.breakSeconds }
-        />
-          
-      <div className='panel panel-default app-content center-block'>
-        <div className='panel-body'>
-          <h4 className='text-center'> Study With Me</h4>
-          <Timer 
+      <div>
+        <button className='btn btn-default btn-sm btn-admin' onClick={()=> this.toggleAdmin()}>.</button>
+        <div className='container'>
+         { this.state.admin && <AdminPanel
             timestamp={ this.state.timestamp }
-            timerCycle={ this.state.timerCycle }
-            timerState={ this.state.timerState }
-          />
+            controlTimer={ this.controlTimer }
+            onSetTimer={ this.onSetTimer }
+            studyMinutes={ this.state.studyMinutes }
+            studySeconds={ this.state.studySeconds }
+            breakMinutes={ this.state.breakMinutes }
+            breakSeconds={ this.state.breakSeconds }
+          /> }
+            
+        <div className='panel panel-default app-content center-block'>
+          <div className='panel-body'>
+            <h4 className='text-center'> Study With Me</h4>
+            <Timer 
+              timestamp={ this.state.timestamp }
+              timerCycle={ this.state.timerCycle }
+              timerState={ this.state.timerState }
+            />
+          </div>
         </div>
-      </div>
+        </div>
       </div>
     );
   }
+
+  toggleAdmin(){
+    this.setState({
+      admin: !this.state.admin
+    })
+  }
+
   controlTimer(command, newStudyTime, newBreakTime){
     modifyTimer(command, newStudyTime, newBreakTime);
   }

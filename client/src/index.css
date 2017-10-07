@@ -3,3 +3,7 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+.btn-admin {
+  padding: 2px 8px;
+  opacity: 0.1;
+}
