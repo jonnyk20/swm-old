@@ -8,17 +8,17 @@ class Timer extends Component {
   render()
   {
     return (
-      
-      <div className='container-fluid'>
-        
-        <TimerHeader 
-          timerState={ this.props.timerState }
-          timerCycle={ this.props.timerCycle }
-        />
-        <TimerDisplay 
-          timestamp={ this.props.timestamp }
-        />
-      </div>
+        <div className='container-fluid timer'>
+          <h4 className='text-center'> Study With Me</h4>
+          <span className='online-users'> Online users: { this.props.onlineUsers } </span>
+          <TimerHeader 
+            timerState={ this.props.timerState }
+            timerCycle={ this.props.timerCycle }
+          />
+          <TimerDisplay 
+            timestamp={ this.props.timestamp }
+          />
+        </div>
     );
   }
 }

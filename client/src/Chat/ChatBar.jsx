@@ -29,7 +29,8 @@ class ChatBar extends Component {
           <div className='col-sm-9 chat-input-container'>
             <input
               className='chatbar-message form-control' 
-              value={this.state.message} 
+              value={this.state.message}
+              placeholder='say hi to your study partners...'
               onChange={(event) => this.onMessageChange(event)}
               onKeyPress={(event) => {
                 if(event.key === 'Enter') {

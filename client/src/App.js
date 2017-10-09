@@ -10,8 +10,7 @@ import * as timerCycles from './timerCycles';
 class App extends Component {
   constructor(){
     super();
-    //getTimerStatus(this.onTimerInitiated)
-    subscribeToTimer(this.onTimerInitiated, this.onTimerUpdate);
+    subscribeToTimer(this.onTimerInitiated, this.onTimerUpdate, this.onUserCountChange);
     this.controlTimer = this.controlTimer.bind(this)
     this.onTimerUpdate = this.onTimerUpdate.bind(this)
     this.onTimerInitiated = this.onTimerInitiated.bind(this)
@@ -44,21 +43,30 @@ class App extends Component {
             breakMinutes={ this.state.breakMinutes }
             breakSeconds={ this.state.breakSeconds }
           /> }
-            <div> Online users: { this.state.onlineUsers } </div>
+            
         <div className='panel panel-default app-content center-block'>
           <div className='panel-body'>
-            <h4 className='text-center'> Study With Me</h4>
-            <Timer 
+            
+            <Timer
+              onlineUsers={ this.state.onlineUsers }
               timestamp={ this.state.timestamp }
               timerCycle={ this.state.timerCycle }
               timerState={ this.state.timerState }
             />
            
           </div>
-        </div>
-        <ChatContainer
+        </div> 
+        { (this.state.timerCycle !== timerCycles.BREAK) &&
+          <div className='center-block text-center text-primary'> 
+            Chat Window will appear during break periods
+          </div>
+        }
+        
+        { (this.state.timerCycle === timerCycles.BREAK) &&
+          <ChatContainer
           onUserCountChange={ this.onUserCountChange }
          />
+        }
         </div>
       </div>
     );
@@ -78,6 +86,18 @@ class App extends Component {
       this.setState({ 
       timestamp: str
     })
+    } else if (type === 'timerState') {
+      console.log('timer state received', type, str);
+      this.setState({
+        timerState: timerStates[str]
+      });
+    } else if (type === 'timerCycle') {
+      console.log('timer cycle received', type, str);
+      this.setState({
+        timerCycle: timerCycles[str]
+      });
+    } else {
+      console.log('unknown update type', type, str)
     }
   }
   onTimerInitiated = (err, timerStatus, cb) =>{
@@ -106,9 +126,10 @@ class App extends Component {
       this.controlTimer('setTime', [this.state.studyMinutes, this.state.studySeconds], [this.state.breakMinutes, this.state.breakSeconds])
     })
   }
-  onUserCountChange(newUserCount){
+  onUserCountChange = (newCount) => {
+    console.log('user count updated! Now', parseInt(newCount, 10))
     this.setState({
-      onlineUsers: newUserCount
+      onlineUsers: parseInt(newCount, 10)
     })
   }
 }

@@ -2,8 +2,12 @@
   width: 600px;
   margin-top: 50px;
   padding: 20px;
+
 }
 
+.timer {
+  position: relative;
+}
 .control-row {
   margin-bottom: 8px
 }
@@ -31,7 +35,7 @@
   padding: 0;
 }
 
-.message-username {
+.message-username, .chatbar-username {
   font-weight: bold;
 }
 
@@ -52,4 +56,9 @@
 
 .user-blue {
   color: #0000ff;
+}
+span.online-users {
+  position: absolute;
+  right: 0;
+  top: 0;
 }

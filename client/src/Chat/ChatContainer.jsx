@@ -8,7 +8,7 @@ export default class ChatContainer extends Component {
     super(props);
     this.state = {
       currentUser: {
-        username: 'test user',
+        username: 'user123',
         color: 0
       },
       messages: [],
@@ -20,6 +20,7 @@ export default class ChatContainer extends Component {
     this.getNewNotification = this.getNewNotification.bind(this);
     this.assignChatColor = this.assignChatColor.bind(this);
     updateChat(this.getNewMessage, this.getNewNotification, this.assignChatColor);
+    this._isMounted = false;
   }
   render(){
     return (
@@ -41,6 +42,9 @@ export default class ChatContainer extends Component {
     sendMessageToSever(JSON.stringify(message))
   }
   onNewUsername(newUsername){
+    if (!this._isMounted ){
+      return;
+    }
     const oldUserName = this.state.currentUser.username;
     if (oldUserName === newUsername) {
       return;
@@ -53,16 +57,22 @@ export default class ChatContainer extends Component {
     sendUserNameChange(oldUserName, newUsername)
   }
   getNewMessage(newMessage){
+    if (!this._isMounted ){
+      return;
+    }
     const incomingMessage = JSON.parse(newMessage);
     this.setState({
       messages: this.state.messages.concat(incomingMessage)
     })
   }
   getNewNotification(newNotification){
-    const incomingNotification = JSON.parse(newNotification);
-    if (incomingNotification.type === 'userCountChange') {
-      this.props.onUserCountChange(incomingNotification.userCount);
+    if (!this._isMounted ){
+      return;
     }
+    const incomingNotification = JSON.parse(newNotification);
+    // if (incomingNotification.type === 'userCountChange') {
+    //   this.props.onUserCountChange(incomingNotification.userCount);
+    // }
     this.setState({
       messages: this.state.messages.concat(incomingNotification)
     })
@@ -75,5 +85,11 @@ export default class ChatContainer extends Component {
     this.setState({
       currentUser
     })
+  }
+  componentDidMount() {
+    this._isMounted = true;
+  }
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 }

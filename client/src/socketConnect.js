@@ -14,13 +14,20 @@ socket.on('reconnect_failed', function() {
 });
 
 
-function subscribeToTimer(onInitiated, onUpdated) {
+function subscribeToTimer(onInitiated, onUpdated, onUserCountUpdate) {
   socket.emit('requestStatus');
   socket.on('timerStatus', function(status){
     console.log('status received')
     onInitiated(null, status);
   })
   socket.on('timerUpdate', (type, str) => onUpdated(type, str))
+  // socket.on('newNotification', (notification) => {
+  //   const incomingNotification = JSON.parse(notification);
+  //   if (incomingNotification.type === 'userCountChange') {
+  //     onUserCountUpdate(incomingNotification)
+  //   }
+  // })
+  socket.on('userCountChange', onUserCountUpdate)
   console.log('request for status sent');
 } 
 function modifyTimer(command, newStudyTime, newBreakTime){

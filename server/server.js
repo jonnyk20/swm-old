@@ -2,7 +2,7 @@ const io = require('socket.io')();
 const Timer = require('./timer.js');
 const uuidv1 = require('uuid/v1');
 
-const t = new Timer([0, 10], [0, 5]);
+const t = new Timer([25, 0], [5, 0]);
 t.startTimer();
 
 t.on('tick', (type, str) => {
@@ -11,9 +11,12 @@ t.on('tick', (type, str) => {
 
 
 
-
+let userCount = 0;
 let userColor = 0;
 io.on('connection', (client) => {
+  userCount += 1;
+  console.log('client connected! Client count', userCount.toString())
+
   client.emit('colorAssign', userColor.toString())
   userColor = userColor === 3 ? 0 : userColor + 1;
 
@@ -21,24 +24,26 @@ io.on('connection', (client) => {
     id: uuidv1(),
     type: 'userCountChange',
     content: 'A new user has connected',
-    userCount: io.engine.clientsCount,
+    userCount: userCount,
     timestamp: Date.now()
   }
 
   io.emit('newNotification', JSON.stringify(newUser))
-
+  io.emit('userCountChange', userCount.toString())
   client.emit('timer', 'welcome!');
 
   client.on('disconnect', function() {
+    userCount -= 1;
     console.log('client disconneted!');
+    io.emit('userCountChange', userCount.toString())
     const departingUser ={
       id: uuidv1(),
       type: 'userCountChange',
       content: 'A user has disconnected',
-      userCount: io.engine.clientsCount,
+      userCount: userCount,
       timestamp: Date.now()
     }
-    io.emit('newNotification', JSON.stringify(departingUser))
+    io.emit('newNotification', JSON.stringify(departingUser));
   });
 
 
